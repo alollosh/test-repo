@@ -4,10 +4,12 @@ pipeline {
     stages {
         stage('Login to Docker Hub') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'DockerCreds', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                    sh '''
-                    echo $PASSWORD | docker login -u $USERNAME --password-stdin
-                    '''
+            //  withCredentials([usernamePassword(credentialsId: 'DockerCreds', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+             //     sh '''
+               //   echo $PASSWORD | docker login -u $USERNAME --password-stdin
+                 // '''
+
+                 sh 'docker login -u alollosh -p hafSUH*516
                 }
             }
         }
