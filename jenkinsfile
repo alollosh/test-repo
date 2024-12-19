@@ -3,13 +3,24 @@ pipeline {
 
     environment{
         IMAGE_NAME = 'alollosh/jenkins-flask-app'
+        IMAGE_TAG = ${IMAGE_NAME}:${env.GIT_COMMIT}
     
     }
 
     stages {
-        stage('Build') {
+        stage('login to docker hub') {
             steps {
-                echo 'Building..'
+
+                
+                withCredentials([usernamePassword(credentialsId:'DockerCreds',usernameVariable:'USERNAME' , passwordVariable:"PASSWORD")])
+
+                
+                {
+
+                    sh 'echo ${PASSWORD} | docker login -u ${USERNAME} --password-stdin'
+                    echo 'login successful'
+                }
+
             }
         }
         stage('Test') {

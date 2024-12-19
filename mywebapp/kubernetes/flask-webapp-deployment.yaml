@@ -1,65 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    deployment.kubernetes.io/revision: "1"
-  creationTimestamp: "2024-12-14T21:11:59Z"
-  generation: 1
-  labels:
-    app: flask-webapp-deployment
   name: flask-webapp-deployment
-  namespace: default
-  resourceVersion: "2040"
-  uid: 917d2e91-4721-4a05-87d9-6659e6d7af02
+  labels:
+    app: flask-webapp
 spec:
-  progressDeadlineSeconds: 600
-  replicas: 2
-  revisionHistoryLimit: 10
+  replicas: 3
   selector:
     matchLabels:
-      app: flask-webapp-deployment
-  strategy:
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
-    type: RollingUpdate
+      app: flask-webapp
   template:
     metadata:
-      creationTimestamp: null
       labels:
-        app: flask-webapp-deployment
+        app: flask-webapp
     spec:
       containers:
-      - image: alollosh/jenkins-flask-app
-        imagePullPolicy: Always
-        name: jenkins-flask-app
+      - name: flask-webapp
+        image: alollosh/jenkins-flask-app
         ports:
         - containerPort: 5000
-          protocol: TCP
-        resources: {}
-        terminationMessagePath: /dev/termination-log
-        terminationMessagePolicy: File
-      dnsPolicy: ClusterFirst
-      restartPolicy: Always
-      schedulerName: default-scheduler
-      securityContext: {}
-      terminationGracePeriodSeconds: 30
-status:
-  availableReplicas: 2
-  conditions:
-  - lastTransitionTime: "2024-12-14T21:12:08Z"
-    lastUpdateTime: "2024-12-14T21:12:08Z"
-    message: Deployment has minimum availability.
-    reason: MinimumReplicasAvailable
-    status: "True"
-    type: Available
-  - lastTransitionTime: "2024-12-14T21:11:59Z"
-    lastUpdateTime: "2024-12-14T21:12:08Z"
-    message: ReplicaSet "flask-webapp-deployment-5d9bf7d888" has successfully progressed.
-    reason: NewReplicaSetAvailable
-    status: "True"
-    type: Progressing
-  observedGeneration: 1
-  readyReplicas: 2
-  replicas: 2
-  updatedReplicas: 2
