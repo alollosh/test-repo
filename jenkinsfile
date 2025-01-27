@@ -1,15 +1,28 @@
 pipeline {
     agent any
 
+ environment {
+        DOCKERHUB_CREDS = credentials('DockerJenkinsToken') 
+        DOCKER_IMAGE = 'alollosh/jenkins-flask-app'
+    }
     stages {
-        stage('Login to Docker Hub') {
+        stage('Build') {
             steps {
-            //  withCredentials([usernamePassword(credentialsId: 'DockerCreds', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-             //     sh '''
-               //   echo $PASSWORD | docker login -u $USERNAME --password-stdin
-                 // '''
+                sh "docker build $DOCKER_IMAGE"
+           
+                }
+            }
 
-                 sh 'docker login -u alollosh -p hafSUH*516'
+        stage('Login') {
+            steps {
+                sh "echo $DOCKERHUB_CREDS_PSW | docker login -u $DOCKERHUB_CREDS_USR --password-stdin "
+           
+                }
+            }
+        stage('push') {
+            steps {
+                sh "docker push $DOCKER_IMAGE "
+           
                 }
             }
         }
